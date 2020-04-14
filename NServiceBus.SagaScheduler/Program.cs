@@ -30,7 +30,6 @@ namespace NServiceBus.SagaScheduler
             persistence.SqlDialect<SqlDialect.MsSqlServer>();
             persistence.ConnectionBuilder(() => new SqlConnection(connectionString));
 
-
             var endpointInstance = await Endpoint.Start(endpointConfiguration)
                 .ConfigureAwait(false);
 

@@ -4,7 +4,7 @@ using Contracts;
 
 namespace NServiceBus.SagaScheduler
 {
-    public class ScheduleHandler : 
+    public class ScheduleSaga : 
         Saga<ScheduleData>,
         IAmStartedByMessages<StartScheduler>,
         IHandleTimeouts<SchedulerTimeOut>
@@ -39,7 +39,7 @@ namespace NServiceBus.SagaScheduler
         {
             //Got a timeout message. Recheck legacy system.
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Running legacy system job");
+            Console.WriteLine($"[{DateTime.Now:T}] Running legacy system job. Timeout requested at {state.RequestedAt:T}");
             IsLegacyDataUpdated(context);
             
             //Send Timeout Request
@@ -52,7 +52,7 @@ namespace NServiceBus.SagaScheduler
         private void IsLegacyDataUpdated(IMessageHandlerContext context)
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Checking for updated data in: " + Data.LegacySystemId + "\n");
+            Console.WriteLine($"Checking for updated data in: {Data.LegacySystemId}\n");
             //----------------------------------------------------
             //Code to check if legacy system is updated goes here
             var isDataUpdated = false;
@@ -71,6 +71,7 @@ namespace NServiceBus.SagaScheduler
     /// </summary>
     public class SchedulerTimeOut : IMessage
     {
+        public DateTime RequestedAt { get; set; } = DateTime.Now;
     }
 
 
