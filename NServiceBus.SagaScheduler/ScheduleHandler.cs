@@ -9,6 +9,7 @@ namespace NServiceBus.SagaScheduler
         IAmStartedByMessages<StartScheduler>,
         IHandleTimeouts<SchedulerTimeOut>
     {
+        //This represents how long the scheduler should wait to kick the job off again
         private static readonly TimeSpan TimeToCheckAgain = TimeSpan.FromSeconds(1);
 
         protected override void ConfigureHowToFindSaga(SagaPropertyMapper<ScheduleData> mapper)
@@ -43,7 +44,9 @@ namespace NServiceBus.SagaScheduler
             return RequestTimeout<SchedulerTimeOut>(context, TimeToCheckAgain);
         }
 
-
+        /// <summary>
+        /// This scheduled job checks a legacy system for updated data
+        /// </summary>
         private static void IsLegacyDataUpdated(IMessageHandlerContext context)
         {
             Console.WriteLine("Checking legacy system for new data\n");
@@ -59,14 +62,6 @@ namespace NServiceBus.SagaScheduler
         }
     }
 
-
-
-    /// <summary>
-    /// Send This Event to notify everyone that this Legacy System Has Updated Data
-    /// </summary>
-    public class LegacyDataUpdated : IEvent
-    {
-    }
 
     /// <summary>
     /// TimeOut message used by the saga

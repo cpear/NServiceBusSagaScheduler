@@ -22,8 +22,6 @@ namespace Sender
             var routingSettings = transport.Routing();
             routingSettings.RouteToEndpoint(typeof(StartScheduler), "NServiceBus.SagaScheduler");
 
-//            var endpointInstance = await Endpoint.Start(endpointConfiguration)
-//                .ConfigureAwait(false);
 
             var startableEndpoint = Endpoint.Create(endpointConfiguration)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
@@ -31,7 +29,7 @@ namespace Sender
                 .ConfigureAwait(false).GetAwaiter().GetResult();
 
 
-            Console.WriteLine("Press enter to send a message");
+            Console.WriteLine("Press enter to Start the Scheduled Task (Job)");
             Console.WriteLine("Press any key to exit");
             while (true)
             {
