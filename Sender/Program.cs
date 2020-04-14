@@ -17,7 +17,7 @@ namespace Sender
             endpointConfiguration.SendOnly();
 
             var transport = endpointConfiguration.UseTransport<SqlServerTransport>();
-            transport.ConnectionString("Data Source=.\\NsbSamplesSql;Database=NsbSamplesSql;Integrated Security=True");
+            transport.ConnectionString("Data Source=.\\SqlExpress;Database=NsbSamplesSql;Integrated Security=True");
 
             // Configure message routing
             var routingSettings = transport.Routing();

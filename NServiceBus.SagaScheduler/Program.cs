@@ -10,7 +10,7 @@ namespace NServiceBus.SagaScheduler
 
         static async Task Main(string[] args)
         {
-            const string connectionString = "Data Source=.\\NsbSamplesSql;Database=NsbSamplesSql;Integrated Security=True";
+            const string connectionString = "Data Source=.\\SqlExpress;Database=NsbSamplesSql;Integrated Security=True";
 
             Console.Title = "NServiceBus.SagaScheduler";
 
