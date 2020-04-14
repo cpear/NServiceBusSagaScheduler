@@ -17,18 +17,13 @@ namespace Sender
             endpointConfiguration.SendOnly();
 
             var transport = endpointConfiguration.UseTransport<SqlServerTransport>();
-            transport.ConnectionString("Data Source=.\\SqlExpress;Database=NsbSamplesSql;Integrated Security=True");
+            transport.ConnectionString("Data Source=.\\NsbSamplesSql;Database=NsbSamplesSql;Integrated Security=True");
 
             // Configure message routing
             var routingSettings = transport.Routing();
             routingSettings.RouteToEndpoint(typeof(StartScheduler), "NServiceBus.SagaScheduler");
-
-
-            var startableEndpoint = Endpoint.Create(endpointConfiguration)
-                .ConfigureAwait(false).GetAwaiter().GetResult();
-            var endpointInstance = startableEndpoint.Start()
-                .ConfigureAwait(false).GetAwaiter().GetResult();
-
+            
+            var endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
 
             Console.WriteLine("Press enter to Start the Scheduled Task (Job)");
             Console.WriteLine("Press any key to exit");
@@ -44,15 +39,13 @@ namespace Sender
 
                 //Start up scheduler
                 //----------------------------------------------
-                await endpointInstance.Send(new StartScheduler()).ConfigureAwait(false);
+                await endpointInstance.Send(new StartScheduler()).ConfigureAwait(false);;
                 //----------------------------------------------
 
                 Console.WriteLine("Published StartScheduler message\n");
             }
             
-
-            await endpointInstance.Stop()
-                .ConfigureAwait(false);
+            await endpointInstance.Stop().ConfigureAwait(false);;
         }
     }
 }

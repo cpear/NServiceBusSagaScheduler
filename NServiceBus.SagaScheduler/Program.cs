@@ -10,7 +10,7 @@ namespace NServiceBus.SagaScheduler
 
         static async Task Main(string[] args)
         {
-            const string connectionString = "Data Source=.\\SqlExpress;Database=NsbSamplesSql;Integrated Security=True";
+            const string connectionString = "Data Source=.\\NsbSamplesSql;Database=NsbSamplesSql;Integrated Security=True";
 
             Console.Title = "NServiceBus.SagaScheduler";
 
@@ -30,9 +30,7 @@ namespace NServiceBus.SagaScheduler
             persistence.SqlDialect<SqlDialect.MsSqlServer>();
             persistence.ConnectionBuilder(() => new SqlConnection(connectionString));
 
-
-            var endpointInstance = await Endpoint.Start(endpointConfiguration)
-                .ConfigureAwait(false);
+            var endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
 
             Console.WriteLine("\nPress Enter to exit...\n\n\n");
 
@@ -44,8 +42,7 @@ namespace NServiceBus.SagaScheduler
 
             Console.ReadLine();
 
-            await endpointInstance.Stop()
-                .ConfigureAwait(false);
+            await endpointInstance.Stop().ConfigureAwait(false);
         }
 
         
