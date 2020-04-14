@@ -9,6 +9,7 @@ namespace Sender
     {
         static async Task Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.Title = "Sender";
 
             var endpointConfiguration = new EndpointConfiguration("Sender");

@@ -20,10 +20,11 @@ namespace NServiceBus.SagaScheduler
 
         public Task Handle(StartScheduler message, IMessageHandlerContext context)
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Received Start the Scheduler Message.");
             if (Data.IsStarted)
             {
-                Console.WriteLine("The scheduler has been previously started\n\n");
+                Console.WriteLine("The scheduler has already been previously started. Standing by for scheduled tasks....\n\n");
                 return Task.CompletedTask;
             }
 
@@ -37,7 +38,8 @@ namespace NServiceBus.SagaScheduler
         public Task Timeout(SchedulerTimeOut state, IMessageHandlerContext context)
         {
             //Got a timeout message. Recheck legacy system.
-            Console.WriteLine("Picked up a Timeout message");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Running legacy system job");
             IsLegacyDataUpdated(context);
             
             //Send Timeout Request
@@ -47,15 +49,16 @@ namespace NServiceBus.SagaScheduler
         /// <summary>
         /// This scheduled job checks a legacy system for updated data
         /// </summary>
-        private static void IsLegacyDataUpdated(IMessageHandlerContext context)
+        private void IsLegacyDataUpdated(IMessageHandlerContext context)
         {
-            Console.WriteLine("Checking legacy system for new data\n");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Checking for updated data in: " + Data.LegacySystemId + "\n");
             //----------------------------------------------------
             //Code to check if legacy system is updated goes here
-            var dataUpdated = false;
+            var isDataUpdated = false;
             //----------------------------------------------------
 
-            if (dataUpdated)
+            if (isDataUpdated)
             {
                 context.Send(new LegacyDataUpdated()).ConfigureAwait(false);
             }
