@@ -14,8 +14,7 @@ namespace NServiceBus.SagaScheduler
 
         protected override void ConfigureHowToFindSaga(SagaPropertyMapper<ScheduleData> mapper)
         {
-            mapper
-                .ConfigureMapping<StartScheduler>(message => message.LegacySystemId)
+            mapper.ConfigureMapping<StartScheduler>(message => message.LegacySystemId)
                 .ToSaga(sagaData => sagaData.LegacySystemId);
         }
 

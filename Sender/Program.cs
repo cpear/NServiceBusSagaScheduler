@@ -23,7 +23,8 @@ namespace Sender
             var routingSettings = transport.Routing();
             routingSettings.RouteToEndpoint(typeof(StartScheduler), "NServiceBus.SagaScheduler");
             
-            var endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
+            var endpointInstance = await Endpoint.Start(endpointConfiguration)
+                .ConfigureAwait(false);
 
             Console.WriteLine("Press enter to Start the Scheduled Task (Job)");
             Console.WriteLine("Press any key to exit");
@@ -39,13 +40,14 @@ namespace Sender
 
                 //Start up scheduler
                 //----------------------------------------------
-                await endpointInstance.Send(new StartScheduler()).ConfigureAwait(false);;
+                await endpointInstance.Send(new StartScheduler()).ConfigureAwait(false);
                 //----------------------------------------------
 
                 Console.WriteLine("Published StartScheduler message\n");
             }
             
-            await endpointInstance.Stop().ConfigureAwait(false);;
+            await endpointInstance.Stop()
+                .ConfigureAwait(false);
         }
     }
 }
